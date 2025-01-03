@@ -40,3 +40,38 @@ export const CarmelLogin = async (req, res) => {
         res.status(500).send(error.message)
     }
 }
+
+export const CarmelUpdate = async (req, res) => {
+    const UserId = req.params.id;
+    const { name, email } = req.body;
+
+    try {
+        const user = await User.findById(UserId)
+        if (!user) {
+            return res.status(400).send('User not found')
+        }
+
+        if (name) user.name = name;
+        if (email) user.email = email;
+
+        await user.save();
+        res.send(`User ${user.name} updated successfully`)
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+
+}
+
+export const CarmelDelete = async (req, res) => {
+    const UserId = req.params.id;
+
+    try {
+        const deleteUser = await User.findByIdAndDelete(UserId)
+        if (!deleteUser) {
+            return res.status(400).send('User not found')
+        }
+        res.send(`User ${deleteUser.name} deleted successfully`)
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
