@@ -1,5 +1,6 @@
 import User from "../models/carmel.model.js"
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 
 export const CarmelIndex = (req, res) => {
     User.find({}, 'name email')
@@ -20,7 +21,8 @@ export const CarmelRegister = async (req, res) => {
         }
         const newUser = new User({ name, email, password, batch, year, mobile });
         await newUser.save();
-        return res.status(201).json({ message: "User created successfully" });
+        const token = jwt.sign({ email: newUser.email, name: newUser.name }, 'secret', { expiresIn: '30m' })
+        return res.status(201).json({ token, message: "User created successfully" });
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
