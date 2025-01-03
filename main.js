@@ -1,4 +1,5 @@
 import express from "express"
+import carmelRoutes from "./routes/carmel.routes.js"
 
 const app = express()
 const port = 6969
@@ -7,17 +8,7 @@ app.get('/', (re, res) => {
     res.json({ msg: "Hello" })
 })
 
-app.get('/users', (req, res) => {
-    res.json({ msg: "Hello world" })
-})
-
-app.post('/register', (req, res) => {
-
-})
-
-app.post('/login', (req, res) => {
-
-})
+app.use('/carmel', carmelRoutes)
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
