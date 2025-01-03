@@ -1,17 +1,12 @@
 import express from "express"
+import { CarmelIndex, CarmelLogin, CarmelRegister } from "../controllers/carmel.controller.js"
 
 const router = express.Router()
 
-router.get('/users', (req, res) => {
-    res.send("Gell all users")
-})
+router.get('/users', CarmelIndex)
 
-router.post('/register', (req, res) => {
-    res.send("Register Successfull")
-})
+router.post('/register', CarmelRegister)
 
-router.post('/login', (req, res) => {
-    res.send("Login Successfull")
-})
+router.post('/login', CarmelLogin)
 
 export default router
