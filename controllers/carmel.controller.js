@@ -1,4 +1,5 @@
 import User from "../models/carmel.model.js"
+import bcrypt from 'bcryptjs'
 
 export const CarmelIndex = (req, res) => {
     res.send("Gell all users")
@@ -20,6 +21,16 @@ export const CarmelRegister = async (req, res) => {
 
 }
 
-export const CarmelLogin = (req, res) => {
-    res.send("Login Successfull")
+export const CarmelLogin = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const user = await User.findOne({ email: email })
+        if (user && user.password === password) {
+            res.status(201).json({ message: "LoggedIn Successfull" })
+        } else {
+            res.status(400).json({ message: "Incorrect email or password" })
+        }
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
 }
