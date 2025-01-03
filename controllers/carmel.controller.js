@@ -2,7 +2,13 @@ import User from "../models/carmel.model.js"
 import bcrypt from 'bcryptjs'
 
 export const CarmelIndex = (req, res) => {
-    res.send("Gell all users")
+    User.find({}, 'name email')
+        .then(users => {
+            res.status(201).json(users)
+        })
+        .catch(error => {
+            return res.status(500).json({ message: "Internal server error", error: error.message });
+        });
 }
 
 export const CarmelRegister = async (req, res) => {
